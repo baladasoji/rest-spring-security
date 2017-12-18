@@ -1,5 +1,5 @@
 pipeline {
-  agent docker
+  agent any
   stages {
     stage('Maven') {
       agent {
@@ -7,7 +7,7 @@ pipeline {
           image 'maven:3-jdk-8-alpine'
           args '-v /root/.m2:/root/.m2'
         }
-        
+
       }
       steps {
         sh 'mvn clean compile package'
@@ -18,7 +18,7 @@ pipeline {
         docker {
           image 'docker:latest'
         }
-        
+
       }
       steps {
         sh 'docker build . -t dasoji/rest-spring-security'
