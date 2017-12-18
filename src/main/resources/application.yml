@@ -1,0 +1,19 @@
+
+jwt:
+  header: Authorization
+  secret: my-very-secret-key
+logging:
+  level:
+    org.springframework.security: DEBUG
+server:
+  port: 8888
+spring:
+  resources:
+    chain:
+      enabled: true
+management:
+  security:
+    enabled: true # set to false to disable 'default' Spring Boot security
+#endpoints:
+#  cors:
+#    allowed-origins: '*'
