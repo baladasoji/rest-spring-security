@@ -6,13 +6,13 @@
     <groupId>com.maersk</groupId>
     <artifactId>rest-spring-security</artifactId>
     <version>0.9.9</version>
-    
+
     <scm>
       <connection>scm:git:https://github.com/baladasoji/rest-spring-security.git</connection>
       <developerConnection>scm:git:git@github.com:baladasoji/rest-spring-security.git</developerConnection>
             <url>https://github.com/baladasoji/rest-spring-security</url>
     </scm>
-    
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -25,26 +25,29 @@
     </properties>
 
     <dependencies>
-
-<!-- Additional dependency on bouncy castle for verifying signatures on the JWT tokens based on X509 certificates -->
-
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.58</version>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>
+          <version>1.58</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+          <groupId>com.nimbusds</groupId>
+          <artifactId>nimbus-jose-jwt</artifactId>
+          <version>4.23</version>
         </dependency>
 
         <!-- Test classes -->

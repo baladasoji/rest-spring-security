@@ -5,7 +5,8 @@ import com.maersk.apisecurity.security.exception.JwtTokenMalformedException;
 import com.maersk.apisecurity.security.model.AuthenticatedUser;
 import com.maersk.apisecurity.security.model.JwtAuthenticationToken;
 import com.maersk.apisecurity.security.transfer.JwtUserDto;
-import com.maersk.apisecurity.security.util.JwtTokenValidator;
+//import com.maersk.apisecurity.security.util.JwtTokenValidator;
+import com.maersk.apisecurity.security.util.NimbusTokenValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -27,8 +28,11 @@ import java.util.List;
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
+  //  @Autowired
+  //  private JwtTokenValidator jwtTokenValidator;
+
     @Autowired
-    private JwtTokenValidator jwtTokenValidator;
+    private NimbusTokenValidator nimbusTokenValidator;
 
     @Override
     public boolean supports(Class<?> authentication) {
@@ -44,7 +48,8 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
         String token = jwtAuthenticationToken.getToken();
 
-        JwtUserDto parsedUser = jwtTokenValidator.parseToken(token);
+        //JwtUserDto parsedUser = jwtTokenValidator.parseToken(token);
+        JwtUserDto parsedUser = nimbusTokenValidator.parseToken(token);
 
         if (parsedUser == null) {
             throw new JwtTokenMalformedException("JWT token is not valid");
