@@ -4,4 +4,4 @@ https://pragmaticintegrator.wordpress.com/2016/05/27/validating-jwt-with-spring-
 The original source code can be found at
 https://gitlab.com/palmapps/jwt-spring-security-demo
 
-The build has now been automated with Jenkins
+The build has now been automated with Jenkins Testing complete automation
