@@ -26,7 +26,7 @@ pipeline {
         {
           sh 'docker build . -t dasoji/rest-spring-security'
           sh 'docker login -u $DKR_USERNAME -p $DKR_PASSWORD'
-          sh 'docker push dasoji/rest-spring-security:latest'
+          sh 'docker push dasoji/rest-spring-security'
         }
       }
 
