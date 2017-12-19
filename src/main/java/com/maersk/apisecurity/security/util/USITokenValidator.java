@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author pascal alma
  */
 @Component
-public class JwtTokenValidator {
+public class USITokenValidator {
 
 
 
@@ -31,9 +31,9 @@ public class JwtTokenValidator {
      */
     public JwtUserDto parseToken(String token) {
         JwtUserDto u = null;
-
+        System.out.println (" Inside USI parsing now");
         try {
-          PublicKey key = PemUtils.readPublicKeyFromFile("pubkey.pem", "RSA");
+          PublicKey key = PemUtils.readPublicKeyFromFile("pppubkey.pem", "RSA");
             Claims body = Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(token)

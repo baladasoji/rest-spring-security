@@ -11,7 +11,9 @@ public class JwtUserDto {
 
     private String username;
 
-    private String role;
+    private String role ;
+
+    private String[] roles;
 
     public Long getId() {
         return id;
@@ -35,5 +37,12 @@ public class JwtUserDto {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }
