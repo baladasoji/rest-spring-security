@@ -18,9 +18,13 @@ import java.io.IOException;
 public class USITokenValidator {
 
 
-
     @Value("${jwt.secret}")
     private String secret;
+
+    @Value("${jwt.pubkey}")
+    private String publickey;
+
+    private static final String algorithm = "RSA";
 
     /**
      * Tries to parse specified String as a JWT token. If successful, returns User object with username, id and role prefilled (extracted from token).
@@ -31,9 +35,8 @@ public class USITokenValidator {
      */
     public JwtUserDto parseToken(String token) {
         JwtUserDto u = null;
-        System.out.println (" Inside USI parsing now");
         try {
-          PublicKey key = PemUtils.readPublicKeyFromFile("pppubkey.pem", "RSA");
+          PublicKey key = PemUtils.readPublicKeyFromFile(publickey, algorithm);
             Claims body = Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(token)
@@ -46,7 +49,6 @@ public class USITokenValidator {
             u.setRole((String) body.get("roles"));
 
         } catch (JwtException e) {
-            // Simply print the exception and null will be returned for the userDto
             e.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();

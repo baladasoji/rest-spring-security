@@ -2,6 +2,8 @@
 jwt:
   header: Authorization
   secret: my-very-secret-key
+  pubkey: pppubkey.pem
+  azurejwk: https://login.microsoftonline.com/f1651775-d631-4149-936d-287f391c646b/discovery/v2.0/keys
 logging:
   level:
     org.springframework.security: DEBUG

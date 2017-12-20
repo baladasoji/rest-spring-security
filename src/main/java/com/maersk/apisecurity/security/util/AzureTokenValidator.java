@@ -22,6 +22,8 @@ import java.net.URL;
 public class AzureTokenValidator {
 
 
+    @Value("${jwt.azurejwk}")
+    private String azurejwk;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -44,7 +46,7 @@ public class AzureTokenValidator {
           // OAuth 2.0 server's JWK set, published at a well-known URL. The RemoteJWKSet
           // object caches the retrieved keys to speed up subsequent look-ups and can
           // also gracefully handle key-rollover
-          JWKSource keySource = new RemoteJWKSet(new URL("https://login.microsoftonline.com/f1651775-d631-4149-936d-287f391c646b/discovery/v2.0/keys"));
+          JWKSource keySource = new RemoteJWKSet(new URL(azurejwk));
 
           // The expected JWS algorithm of the access tokens (agreed out-of-band)
           JWSAlgorithm expectedJWSAlg = JWSAlgorithm.RS256;
@@ -56,31 +58,13 @@ public class AzureTokenValidator {
 
           // Process the token
           SecurityContext ctx = null; // optional context parameter, not required here
-
           JWTClaimsSet claims = jwtProcessor.process(token, ctx);
 
-
-//          JWT jot = JWTParser.parse(token) ;
-  //        JWTClaimsSet claims = jot.getJWTClaimsSet();
             u = new JwtUserDto();
-//            u.setUsername(claims.getSubject());
             u.setUsername(claims.getStringClaim("name"));
             u.setId(Long.parseLong("123"));
             String[] roles = claims.getStringArrayClaim("roles");
-          //  String[] roles = Arrays.copyOf(claims.getClaim("roles"), claims.getClaim("roles").length, String[].class);
             u.setRoles(roles);
-        /*    Claims body = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            u = new JwtUserDto();
-            u.setUsername(body.getSubject());
-            u.setId(Long.parseLong("123"));
-            //u.setId(Long.parseLong((String) body.get("123")));
-            u.setRole((String) body.get("roles"));
-
-            */
 
         } catch (ParseException e) {
             // Simply print the exception and null will be returned for the userDto
@@ -88,11 +72,6 @@ public class AzureTokenValidator {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        /* catch (Exception e) {
-          e.printStackTrace();
-        }*/
-
-
 
         return u;
     }
