@@ -49,7 +49,8 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
         String token = jwtAuthenticationToken.getToken();
-        List<GrantedAuthority> authorityList;
+        //Initialize an emtpy authority list useful in case roles are not returned by the provider
+        List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
         JwtUserDto parsedUser = null;
 
 //Try Azure AD first and then try USI
@@ -81,7 +82,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
       {
          authorityList = getAuthorityList(parsedUser.getRoles());
       }
-      else{
+      else if (parsedUser.getRole() != null){
         authorityList = getAuthorityList(parsedUser.getRole());
       }
 
