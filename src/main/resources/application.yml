@@ -3,7 +3,7 @@ jwt:
   header: Authorization
   secret: my-very-secret-key
   pubkey: pppubkey.pem
-  azurejwk: https://login.microsoftonline.com/f1651775-d631-4149-936d-287f391c646b/discovery/v2.0/keys
+  azurejwk : https://login.microsoftonline.com/05d75c05-fa1a-42e7-9cf1-eb416c396f2d/discovery/v2.0/keys
   usijwk: https://logint.maerskline.com/jwt-rest/jwks.json
 logging:
   level:
