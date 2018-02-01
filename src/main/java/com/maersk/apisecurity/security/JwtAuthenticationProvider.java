@@ -5,8 +5,7 @@ import com.maersk.apisecurity.security.exception.JwtTokenMalformedException;
 import com.maersk.apisecurity.security.model.AuthenticatedUser;
 import com.maersk.apisecurity.security.model.JwtAuthenticationToken;
 import com.maersk.apisecurity.security.transfer.JwtUserDto;
-import com.maersk.apisecurity.security.util.USITokenValidator;
-import com.maersk.apisecurity.security.util.AzureTokenValidator;
+import com.maersk.apisecurity.security.util.JWKTokenValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -16,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import java.util.ArrayList;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.JOSEException;
@@ -30,11 +30,14 @@ import java.util.List;
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    @Autowired
-    private USITokenValidator usiTokenValidator;
+    @Value("${jwt.azurejwk}")
+    private String azurejwk;
+
+    @Value("${jwt.usijwk}")
+    private String usijwk;
 
     @Autowired
-    private AzureTokenValidator azureTokenValidator;
+    private JWKTokenValidator tokenValidator;
 
     @Override
     public boolean supports(Class<?> authentication) {
@@ -52,23 +55,11 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         //Initialize an emtpy authority list useful in case roles are not returned by the provider
         List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
         JwtUserDto parsedUser = null;
-
-//Try Azure AD first and then try USI
-        try{
-
-         parsedUser = azureTokenValidator.parseToken(token);
-        }
-        catch (BadJOSEException bje)
+        parsedUser = tokenValidator.parseToken(token,azurejwk);
+        if (parsedUser == null)
         {
-          System.out.println ("Got Base JOSE Exception will now try to parse from USI");
-          bje.printStackTrace(System.err);
-          parsedUser = usiTokenValidator.parseToken(token);
+          parsedUser = tokenValidator.parseToken(token,usijwk);
         }
-        catch (JOSEException je)
-        {
-          je.printStackTrace (System.err);
-        }
-
 
         if (parsedUser == null) {
             throw new JwtTokenMalformedException("JWT token is not valid");
