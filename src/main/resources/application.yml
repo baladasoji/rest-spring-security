@@ -9,7 +9,7 @@ logging:
   level:
     org.springframework.security: DEBUG
 server:
-  port: 8888
+  port: 8080
 spring:
   resources:
     chain:

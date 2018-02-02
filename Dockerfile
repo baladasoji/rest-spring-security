@@ -4,3 +4,4 @@ ENTRYPOINT ["/usr/bin/java", "-jar", "/app.jar"]
 # Add Maven dependencies (not shaded into the artifact; Docker-cached)
 #ADD target/lib           /usr/share/myservice/lib
 # Add the service itself
+EXPOSE 8080
