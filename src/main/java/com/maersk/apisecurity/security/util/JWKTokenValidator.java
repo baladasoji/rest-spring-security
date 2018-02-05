@@ -59,7 +59,12 @@ public class JWKTokenValidator {
           JWTClaimsSet claims = jwtProcessor.process(token, ctx);
 
             u = new JwtUserDto();
-            u.setUsername(claims.getStringClaim("sub"));
+            String username = claims.getStringClaim("upn");
+            if (username == null || username.equals(""))
+            {
+              username = claims.getStringClaim("sub");
+            }
+            u.setUsername(username);
             u.setId(Long.parseLong("123"));
             String[] roles = claims.getStringArrayClaim("roles");
             u.setRoles(roles);
